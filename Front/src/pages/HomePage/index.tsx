@@ -26,7 +26,7 @@ export interface Contact {
 export const HomePage = () => {
 
     const { user, userLogout } = useContext(UserContext)
-    const { contacts, setContacts, setIsOpenAdd, setIsOpenEdit, isOpenAdd, isOpenEdit, isOpenRemove, setIsOpenRemove, deleteContact, editContact } = useContext(ContactsListContext)
+    const { contacts, setContacts, setIsOpenAdd, setIsOpenEdit, isOpenAdd, isOpenEdit, isOpenRemove, setIsOpenRemove } = useContext(ContactsListContext)
 
     const [editingContactId, setEditingContactId] = useState<string | null>(null);
     const [removingContactId, setRemovingContactId] = useState<string | null>(null);

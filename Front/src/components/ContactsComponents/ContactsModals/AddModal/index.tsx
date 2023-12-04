@@ -4,18 +4,20 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ContactData, schema } from "./schema"
 import { Modal } from "../Modal"
+import { Form } from "./style"
 import { ContactsListContext } from "../../../../providers/ContactsListContext"
+import { Input } from "../../../RegisterForm/Input"
+import { StyledButton } from "../../../Button/Button";
 
 
 interface ModalAddTaskProps {
   toggleModal: () => void
-//   setContacts: Dispatch<SetStateAction<Contact[]>>
-setIsOpenAdd: Dispatch<SetStateAction<boolean>>
+  setIsOpenAdd: Dispatch<SetStateAction<boolean>>
 }
 
 
 export const AddContactModal = ({ toggleModal, setIsOpenAdd }: ModalAddTaskProps) => {
-  const { register, handleSubmit } = useForm<ContactData>({
+  const { register, handleSubmit, formState: {errors}   } = useForm<ContactData>({
       resolver: zodResolver(schema)
   })
   const { addContact } = useContext(ContactsListContext)
@@ -30,18 +32,31 @@ export const AddContactModal = ({ toggleModal, setIsOpenAdd }: ModalAddTaskProps
   return (
       <Modal toggleModal={toggleModal}>
 
-          <form onSubmit={handleSubmit(createContact)}>
-              <label htmlFor="name">Nome</label>
-              <input type="text" id="name" {...register("name")} />
+          <Form onSubmit={handleSubmit(createContact)}>
 
-              <label htmlFor="telephone">Número</label>
-              <input type="text" id="telephone" {...register("telephone")} />
+              <Input 
+                title="Nome" 
+                type="text" 
+                placeholder="Digite aqui seu nome" 
+                {...register("name")} 
+                error={errors.name}/>
 
-              <label htmlFor="email">Email</label>
-              <input type="text" id="email" {...register("email")} />
+              <Input 
+                title="Contato" 
+                type="text" 
+                placeholder="Opção de contato" 
+                {...register("telephone")} 
+                error={errors.telephone}/>
 
-              <button type="submit">Registrar contato</button>
-          </form>
+              <Input 
+                title="Email" 
+                type="email" 
+                placeholder="Digite aqui seu email" 
+                {...register("email")} 
+                error={errors.email}/>      
+
+              <StyledButton type="submit">Registrar contato</StyledButton>
+          </Form>
 
       </Modal>
   )
