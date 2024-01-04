@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled.main`
     display: flex;
     flex-direction: column;
 
     gap: 20px;
 
-    /* height: 100vh; */
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
 
     background-color: var(--grey-4);
     color: var(--grey-0);
@@ -67,6 +67,12 @@ export const StyledContainer = styled.div`
 
     header > p {
         color: var(--grey-1);
+    }
+
+    header > div {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
 
     main{

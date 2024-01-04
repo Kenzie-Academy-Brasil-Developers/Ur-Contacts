@@ -4,6 +4,7 @@ import styled, {css} from "styled-components";
 export const HeadlineStyles = css`
     font-family: var(--Font-Primary);
     font-weight: ${({fontWeight}) => fontWeight === "bold" ? 700 : 400};
+    color: var(--grey-0);
 `
 
 

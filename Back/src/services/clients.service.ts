@@ -1,8 +1,8 @@
 import { hash } from "bcryptjs";
 import { AppDataSource } from "../data-source";
 import { Client } from "../entities/clients.entity"
-import { TClientRequest, TClientResponse } from "../interfaces/client.interfaces";
-import { clientSchemaResponse, clientsSchemaResponse } from "../schemas/clients.schemas";
+import { TClientRequest, TClientResponse, TClientUpdateRequest } from "../interfaces/client.interfaces";
+import { clientSchemaResponse, clientsSchemaResponse, clientSchema } from "../schemas/clients.schemas";
 import { AppError } from "../errors/AppError";
 
 
@@ -41,7 +41,52 @@ export class ClientService {
         return clientsSchemaResponse.parse(clients)
     }
 
-    // async retrieve(){
+    async update(data: TClientUpdateRequest, clientId: string): Promise<TClientResponse> {
+        const clientRepository = AppDataSource.getRepository(Client)
+        const oldClient = await clientRepository.findOneBy({ id: clientId })
 
+        if (!oldClient) {
+            throw new AppError("User not found", 404)
+        }
+
+        const newClientData = clientRepository.create({
+            ...oldClient,
+            ...data
+        })
+
+        await clientRepository.save(newClientData)
+
+
+
+        return clientSchemaResponse.parse(newClientData)
+    }
+
+    // async update(data: TClientUpdateRequest, clientId: string): Promise<TClientResponse> {
+    //     const clientRepository = AppDataSource.getRepository(Client)
+    //     const oldClient = await clientRepository.findOneBy({ id: clientId })
+    
+    //     if (!oldClient) {
+    //         throw new AppError("User not found", 404)
+    //     }
+    
+    //     // Atualizando apenas os campos desejados
+    //     clientRepository.merge(oldClient, data);
+    
+    //     // Salvando as alterações
+    //     const updatedClient = await clientRepository.save(oldClient);
+    
+    //     return clientSchemaResponse.parse(updatedClient);
     // }
+    
+
+
+    async remove(clientId: string): Promise<void> {
+        const clientRepository = AppDataSource.getRepository(Client)
+        const client = await clientRepository.findOneBy({ id: clientId })
+
+        if (!client) {
+            throw new AppError("User not found", 404)
+        }
+        await clientRepository.remove(client)
+    }
 }

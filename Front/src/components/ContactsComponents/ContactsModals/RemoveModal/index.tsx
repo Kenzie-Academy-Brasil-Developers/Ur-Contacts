@@ -1,11 +1,8 @@
 import { Dispatch, SetStateAction, useContext } from "react"
-import { Contact } from "../../../../pages/HomePage"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-// import { ContactData, schema } from "./schema"
 import { Modal } from "../Modal"
 import { ContactsListContext } from "../../../../providers/ContactsListContext"
-
+import { StyledTitle } from "../../../../styles/typography"
+import { Form } from "./style";
 
 interface ModalEditTaskProps {
     toggleModal: () => void;
@@ -21,7 +18,6 @@ export const RemoveContactModal = ({ toggleModal, setIsOpenRemove, contactId  }:
   const onSubmit = async () => {
     try {
       await deleteContact(contactId);
-      console.log(contactId)
       setIsOpenRemove(false);
     } catch (error) {
       console.error("Erro ao remover o contato:", error);
@@ -31,10 +27,13 @@ export const RemoveContactModal = ({ toggleModal, setIsOpenRemove, contactId  }:
 
   return (
       <Modal toggleModal={toggleModal}>
+        <Form>
 
-        <h1>Deseja mesmo excluir esse contato?</h1>
-        <button onClick={() => onSubmit()}>Sim</button>
-        <button>Não</button>
+          <StyledTitle>Deseja mesmo excluir esse contato?</StyledTitle>
+          <button onClick={() => onSubmit()}>Sim</button>
+          <button onClick={() => setIsOpenRemove(false)}>Não</button>
+        </Form>
+
 
       </Modal>
   )

@@ -1,9 +1,11 @@
 import { StyledTitle, StyledParagraph } from "../../styles/typography"
 import { StyledContainer } from "./style"
 import { Card } from "../../components/ContactsComponents/ContactsList/ContactCard";
-import { AddContactModal } from "../../components/ContactsComponents/ContactsModals/AddModal";
-import { EditContactModal } from "../../components/ContactsComponents/ContactsModals/EditModal";
+import { AddContactModal } from "../../components/ContactsComponents/ContactsModals/ContactAddModal";
+import { EditContactModal } from "../../components/ContactsComponents/ContactsModals/ContactEditModal";
 import { RemoveContactModal } from "../../components/ContactsComponents/ContactsModals/RemoveModal";
+import { UserEditModal } from "../../components/UserComponents/UserModals/UserEditModal";
+import { RemoveUserModal } from "../../components/UserComponents/UserModals/UserRemoveModal";
 
 import { Link } from "react-router-dom";
 import { api } from "../../services/api";
@@ -12,6 +14,8 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../providers/UserContext";
 import { ContactsListContext } from "../../providers/ContactsListContext";
 import { FaPlusCircle } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
+import { FaTrashAlt } from "react-icons/fa";
 
 
 export interface Contact {
@@ -25,11 +29,12 @@ export interface Contact {
 
 export const HomePage = () => {
 
-    const { user, userLogout } = useContext(UserContext)
+    const { user, userLogout, isOpenEditUser, setIsOpenEditUser, setIsOpenRemoveUser, isOpenRemoveUser } = useContext(UserContext)
     const { contacts, setContacts, setIsOpenAdd, setIsOpenEdit, isOpenAdd, isOpenEdit, isOpenRemove, setIsOpenRemove } = useContext(ContactsListContext)
 
     const [editingContactId, setEditingContactId] = useState<string | null>(null);
     const [removingContactId, setRemovingContactId] = useState<string | null>(null);
+
 
 
     useEffect(() => {
@@ -43,8 +48,11 @@ export const HomePage = () => {
 
 
     const toggleModalAdd = () => setIsOpenAdd(!isOpenAdd)
-    const toggleModalEdit = () => setIsOpenEdit(!isOpenAdd)
-    const toggleModalRemove = () => setIsOpenRemove(!isOpenAdd)
+    const toggleModalEdit = () => setIsOpenEdit(!isOpenEdit)
+    const toggleModalRemove = () => setIsOpenRemove(!isOpenRemove)
+    const toggleModalEditUser = () => setIsOpenEditUser(!isOpenEditUser)
+    const toggleModalRemoveUser = () => setIsOpenRemoveUser(!isOpenRemoveUser)
+
 
     const handleEditContact = (contact: Contact) => {
         setEditingContactId(contact.id);
@@ -58,9 +66,9 @@ export const HomePage = () => {
 
     const renderContacts = (contactsToRender: Contact[]) => contactsToRender.map(contact => <Card key={contact.id} contact={contact} setContacts={setContacts} 
         editContact={() => handleEditContact(contact)} removeContact={() => handleRemoveContact(contact)
-        }
- />)
+        }/>)
 
+    
 
 
 
@@ -79,7 +87,11 @@ export const HomePage = () => {
                 <section className="headerSection">
                     <header>
                             <StyledTitle>{user.name}</StyledTitle>
-                            <StyledParagraph>{user.telephone}</StyledParagraph>
+                            <div>
+                                <MdEdit onClick={toggleModalEditUser}/>
+                                <FaTrashAlt onClick={toggleModalRemoveUser}/>
+                            </div>
+
                     </header>
                 </section>
                 
@@ -87,7 +99,7 @@ export const HomePage = () => {
                     <section>
                         <StyledTitle>Atualmente {contacts.length} contatos</StyledTitle>
 
-                        <FaPlusCircle type="button" onClick={toggleModalAdd} style={{ color: '#FF577F' }}/>
+                        <FaPlusCircle type="button" onClick={toggleModalAdd}/>
 
                     </section>
                 <ul>
@@ -109,6 +121,12 @@ export const HomePage = () => {
                 {
                 isOpenRemove && <RemoveContactModal toggleModal={toggleModalRemove} setIsOpenRemove={setIsOpenRemove} contactId={removingContactId || ''} />
                 }
+
+                {isOpenEditUser && <UserEditModal toggleModal={toggleModalEditUser} setIsOpenEditUser={setIsOpenEditUser} clientId={user.id || ''}/>}
+
+                {isOpenRemoveUser && <RemoveUserModal toggleModal={toggleModalRemoveUser} setIsOpenRemoveUser={setIsOpenRemoveUser} clientId={user.id || ''}/>}
+
+
 
 
             </div>

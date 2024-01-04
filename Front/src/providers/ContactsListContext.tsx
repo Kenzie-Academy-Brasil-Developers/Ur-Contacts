@@ -1,6 +1,4 @@
-import React, { createContext, useState, useEffect, useContext, ReactNode } from "react";
-
-import { useNavigate } from "react-router-dom";
+import React, { createContext, useState, useEffect } from "react";
 import { api } from "../services/api";
 import { Contact } from "../pages/HomePage";
 

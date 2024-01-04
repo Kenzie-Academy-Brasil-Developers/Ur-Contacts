@@ -18,7 +18,7 @@ export const Card = ({ contact, setContacts, editContact, removeContact}: CardPr
     return (
         <Container>
             <div className="infos">
-                <p>{contact.name}</p>
+                <h3 className="nome">{contact.name}</h3>
                 <p>{contact.email}</p>
                 <p>{contact.telephone}</p>
             </div>

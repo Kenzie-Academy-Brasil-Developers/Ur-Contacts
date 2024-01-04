@@ -1,81 +1,3 @@
-// import { createContext, useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { api } from "../services/api";
-
-
-// export const UserContext = createContext({})
-
-
-// export const UserProvider = ({children}) => {
-//     const [user, setUser] = useState(null)
-//     const [loading, setLoading] = useState(null)
-
-
-//     const currentPath = window.location.pathname
-
-//     const navigate = useNavigate();
-    
-//     const userLogin = async (formData) => {
-//         try{
-//             const {data} = await api.post('/login', formData);
-//             setUser(data.user);
-//             localStorage.setItem("@TOKEN", data.token);
-//             localStorage.setItem("@USERID", data.user.id);
-
-
-//             navigate("/home");
-//         } catch(error) {
-//             console.log(error);
-//         } 
-//     }
-
-
-//     const userRegister = async (formData) => {
-//         try {
-//             await api.post('/clients', formData);
-//             console.log("Cadastro efetuado com sucesso")
-
-//             setTimeout(() => {navigate("/")} , 3000);
-//         } catch(error) {
-//             console.log(error)
-//         }
-//     }
-
-//     const userLogout = () => {
-//         setUser(null)
-//         localStorage.removeItem("@TOKEN")
-//         localStorage.removeItem("@USERID")
-//     }
-
-
-//     useEffect(() => {
-//         const token = localStorage.getItem("@TOKEN")
-
-//         const userLoad = async () => {
-//             try {
-//                 setLoading(true);
-//                 const {data} = await api.get("/profile", {
-//                     headers: {
-//                         Authorization: `Bearer ${token}`
-//                     }
-//                 })
-//                 setUser(data)
-//                 navigate(currentPath)
-//             } catch (error) {
-//                 console.log(error)
-//                 localStorage.removeItem("@TOKEN")
-//             }
-//             finally {
-//                 setLoading(false);
-//             }
-//         }
-//         if (token) {
-//             userLoad()
-//         }
-
-//     }, [setUser])
-
-
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { LoginData } from "../pages/LoginPage/validator";
 import { api } from "../services/api";
@@ -87,9 +9,20 @@ interface UserProviderProps {
 }
 
 interface UserContextValues {
-    userLogin: (data: LoginData) => void
-    loading: boolean
+  user: any;
+  setUser: React.Dispatch<React.SetStateAction<any>>;
+  userLogin: (data: LoginData) => void;
+  userLogout: () => void;
+  loading: boolean;
+  isOpenEditUser: boolean;
+  setIsOpenEditUser: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpenRemoveUser: boolean;
+  setIsOpenRemoveUser: React.Dispatch<React.SetStateAction<boolean>>;
+  userRegister: (formData: any) => void;
+  deleteUser: (userId: string) => void;
+  editUser: (formData: any, userId: string) => void;
 }
+
 
 
 export const UserContext = createContext<UserContextValues>({} as UserContextValues)
@@ -99,6 +32,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
+    const [isOpenEditUser, setIsOpenEditUser] = useState(false);
+    const [isOpenRemoveUser, setIsOpenRemoveUser] = useState(false);
+
+    const currentPath = window.location.pathname
 
     useEffect(() => {
         const token = localStorage.getItem("@TOKEN")
@@ -149,6 +86,50 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         localStorage.removeItem("@USERID")
     }
 
+    const deleteUser = async (userId: string) => {
+        try {
+          const token = localStorage.getItem("@TOKEN");
+    
+          await api.delete(`/clients/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setTimeout(() => {navigate("/")} , 3000);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+
+    const editUser = async (formData, userId: string) => {
+        try {
+          const token = localStorage.getItem("@TOKEN");
+          
+          const newUser = {
+            id: userId,
+            ...formData,
+          };
+          console.log(newUser)
+          console.log(typeof(userId))
+          
+          const { data } = await api.patch(`/clients/${userId}`, newUser, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+    
+          setUser((user) => {if (user && user.id === userId) {
+            return { ...user, ...data };
+          } else {
+            return user;
+          }})
+
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
 
     useEffect(() => {
         const token = localStorage.getItem("@TOKEN")
@@ -182,7 +163,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
 
     return(
-        <UserContext.Provider value={{ user, setUser, userRegister, userLogin, userLogout, loading, setLoading }}>
+        <UserContext.Provider value={{ user, setUser, userRegister, userLogin, userLogout, deleteUser, editUser, loading, setLoading, isOpenEditUser, setIsOpenEditUser, isOpenRemoveUser, setIsOpenRemoveUser }}>
             {children}
         </UserContext.Provider>
     )

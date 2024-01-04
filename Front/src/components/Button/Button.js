@@ -8,4 +8,8 @@ export const StyledButton = styled.button`
     border-radius: var(--border-radious);
 
     color: var(--grey-0);
+
+    &:hover{
+        background-color: var(--color-primary-focus);
+    }
 `

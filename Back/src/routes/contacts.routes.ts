@@ -12,7 +12,9 @@ contactsRoutes.use(ensureAuthMiddleware)
 contactsRoutes.post("", ensureDataIsValidMiddleware(contactSchemaRequest), (req, res) => contactController.create(req, res))
 
 contactsRoutes.get("", (req, res) => contactController.list(req, res))
+
 contactsRoutes.patch("/:id", EnsureIsOwnerMiddleware, ensureDataIsValidMiddleware(contactSchemaUpdate), (req, res) => contactController.update(req, res))
+
 contactsRoutes.delete("/:id", EnsureIsOwnerMiddleware, (req, res) => contactController.remove(req, res))
 
 export { contactsRoutes }
