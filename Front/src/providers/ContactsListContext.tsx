@@ -32,6 +32,7 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
   const [isOpenRemove, setIsOpenRemove] = useState(false);
 
 
+
   useEffect(() => {
     const getContactsToList = async () => {
       try {
@@ -96,18 +97,14 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
       });
 
       setContacts((contacts) =>
-        contacts.map((contact) => {
-          if (contact.id === contactId) {
-            return { ...contact, ...data };
-          } else {
-            return contact;
-          }
-        })
+        contacts.map((contact) => contact.id === contactId ? { ...contact, ...data } : contact
+        )
       );
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   return (
     <ContactsListContext.Provider

@@ -1,4 +1,4 @@
-import { StyledTitle, StyledParagraph } from "../../styles/typography"
+import { StyledTitle } from "../../styles/typography"
 import { StyledContainer } from "./style"
 import { Card } from "../../components/ContactsComponents/ContactsList/ContactCard";
 import { AddContactModal } from "../../components/ContactsComponents/ContactsModals/ContactAddModal";

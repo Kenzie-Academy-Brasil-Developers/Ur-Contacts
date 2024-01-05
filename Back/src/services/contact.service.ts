@@ -64,8 +64,8 @@ export class ContactsService {
         })
 
         await contactRepository.save(newContactData)
-
-        return contactSchema.parse(newContactData)
+      
+        return contactSchema.parse(newContactData);
     }
 
 
