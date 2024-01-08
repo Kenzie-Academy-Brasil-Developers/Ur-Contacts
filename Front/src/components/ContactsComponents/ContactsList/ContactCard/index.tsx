@@ -19,8 +19,11 @@ export const Card = ({ contact, setContacts, editContact, removeContact}: CardPr
         <Container>
             <div className="infos">
                 <h3 className="nome">{contact.name}</h3>
-                <p>{contact.email}</p>
-                <p>{contact.telephone}</p>
+                <div className="contacts">
+                    <p>{contact.email}</p>
+                    <p>{contact.telephone}</p>
+
+                </div>
             </div>
 
             <div className="buttons">

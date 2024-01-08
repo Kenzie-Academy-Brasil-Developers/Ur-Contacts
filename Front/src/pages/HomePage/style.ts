@@ -19,9 +19,12 @@ export const StyledContainer = styled.main`
 
         gap: 1.875rem;
 
-        width: 90rem;
+        max-width: 90rem;
+        width: 100%;
 
         margin: 0 auto;
+
+        padding: 1rem;
     }
 
     .navBar{
@@ -48,9 +51,6 @@ export const StyledContainer = styled.main`
     }
 
     .headerSection{
-        display: flex;
-        justify-content: center;
-
         width: 100vw;
         border-bottom: 1px solid var(--grey-1);
         border-top: 1px solid var(--grey-1);
@@ -62,7 +62,10 @@ export const StyledContainer = styled.main`
         align-items: center;
 
         height: 110px;
-        width: 90rem;
+        max-width: 90rem;
+        width: 100%;
+        padding: 1rem;
+        margin: 0 auto;
     }
 
     header > p {
@@ -95,9 +98,10 @@ export const StyledContainer = styled.main`
     }
 
     ul {
-        margin-top: 30px;
-        color: white;        
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(clamp(0px, 100%, 300px), 1fr));
-    }
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+    color: white;
+}
 `

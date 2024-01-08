@@ -4,9 +4,9 @@ import styled from "styled-components";
 export const Container = styled.li`
     display: flex;
     justify-content: space-between;
+    
 
-    width: 250px;
-    /* height: 100px;\\ */
+    flex-basis: calc(20% - 20px);
     border-radius: 10px;
 
     background-color: var(--color-primary);
@@ -20,6 +20,7 @@ export const Container = styled.li`
 
     .infos {
         display: flex;
+        justify-content: space-between;
         flex-direction: column;
         gap: 0.3rem;
     }
@@ -28,6 +29,12 @@ export const Container = styled.li`
         display: flex;
         flex-direction: column;
         gap: 10px;
+    }
+
+    .contacts {
+        display: flex;
+        flex-direction: column;
+        gap:.1875rem
     }
 
 ` 
