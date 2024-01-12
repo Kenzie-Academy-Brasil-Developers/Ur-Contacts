@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { api } from "../services/api";
 import { Contact } from "../pages/HomePage";
+import { toast } from "react-toastify"
 
 interface ContactsValues {
   contacts: Contact[];
@@ -54,6 +55,11 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
         ...formData,
       };
 
+      toast.success("Contato criado com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
+
       const { data } = await api.post("/contacts", newContact, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,6 +75,11 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
   const deleteContact = async (contactId: string) => {
     try {
       const token = localStorage.getItem("@TOKEN");
+
+      toast.success("Contato deletado com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
 
       await api.delete(`/contacts/${contactId}`, {
         headers: {
@@ -89,6 +100,11 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
         id: contactId,
         ...formData,
       };
+
+      toast.success("Contato editado com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
 
       const { data } = await api.patch(`/contacts/${contactId}`, newContact, {
         headers: {

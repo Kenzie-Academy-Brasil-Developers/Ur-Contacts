@@ -22,8 +22,8 @@ export const Card = ({ contact, setContacts, editContact, removeContact}: CardPr
                 <div className="contacts">
                     <p>{contact.email}</p>
                     <p>
-                        ({contact.telephone.length === 11 ? contact.telephone.substring(0, 2) : contact.telephone.substring(0, 2)}) {' '}
-                        {contact.telephone.substring(contact.telephone.length === 11 ? 2 : 2, contact.telephone.length - 4)}
+                        ({contact.telephone.substring(0, 2)}) {' '}
+                        {contact.telephone.substring(2, contact.telephone.length - 4)}
                         -{contact.telephone.substring(contact.telephone.length - 4)}
                     </p>
 
