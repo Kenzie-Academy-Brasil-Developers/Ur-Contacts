@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { LoginData } from "../pages/LoginPage/validator";
 import { api } from "../services/api";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 
@@ -22,7 +23,6 @@ interface UserContextValues {
   deleteUser: (userId: string) => void;
   editUser: (formData: any, userId: string) => void;
 }
-
 
 
 export const UserContext = createContext<UserContextValues>({} as UserContextValues)
@@ -51,22 +51,37 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const userLogin = async (data: LoginData) => {
         try {
-
             const response = await api.post("/login", 
             data)
 
-            setUser(response.data.user);
+            toast.success("Login realizado com sucesso", {
+              theme: "dark",
+              autoClose: 1500,
+            });
+
+            setTimeout(() => {setUser(response.data.user);} , 1500);
             const { token } = response.data
 
             api.defaults.headers.common.Authorization = `Bearer ${token}`
             localStorage.setItem("@TOKEN", token)
-
-            navigate("/home")
+            
         } catch (error) {
-            console.log(error)
+          toast.error("Email ou senha inválidos", {
+            theme: "dark",
+          });
         }
 
     }
+    
+    const userLogout = () => {
+      toast.success("Usuário deslogado com sucesso", {
+        theme: "dark",
+        autoClose: 1500,
+      });
+
+      setTimeout(() => {setUser(null), localStorage.removeItem("@TOKEN"),
+      localStorage.removeItem("@USERID"), localStorage.removeItem("@USERNAME")}, 1500);
+  }
 
 
     const userRegister = async (formData) => {
@@ -74,17 +89,19 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             await api.post('/clients', formData);
             console.log("Cadastro efetuado com sucesso")
 
-            setTimeout(() => {navigate("/")} , 3000);
+            toast.success("Usuário cadastrado com sucesso", {
+              theme: "dark",
+              autoClose: 1500,
+            });
+
+            setTimeout(() => {navigate("/")} , 1500);
         } catch(error) {
-            console.log(error)
+          toast.error("Usuário já cadastrado", {
+            theme: "dark",
+          });
         }
     }
 
-    const userLogout = () => {
-        setUser(null)
-        localStorage.removeItem("@TOKEN")
-        localStorage.removeItem("@USERID")
-    }
 
     const deleteUser = async (userId: string) => {
         try {
@@ -95,7 +112,13 @@ export const UserProvider = ({ children }: UserProviderProps) => {
               Authorization: `Bearer ${token}`,
             },
           });
-          setTimeout(() => {navigate("/")} , 3000);
+
+          toast.success("Usuário deletado com sucesso", {
+            theme: "dark",
+            autoClose: 1500,
+          });
+
+          setTimeout(() => {navigate("/")} , 1500);
         } catch (error) {
           console.log(error);
         }
@@ -110,8 +133,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             id: userId,
             ...formData,
           };
-          console.log(newUser)
-          console.log(typeof(userId))
           
           const { data } = await api.patch(`/clients/${userId}`, newUser, {
             headers: {
@@ -125,8 +146,16 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             return user;
           }})
 
+          toast.success("Usuário editado com sucesso", {
+            theme: "dark",
+            autoClose: 1500,
+          });
+
         } catch (error) {
-          console.log(error);
+          toast.error("Usuário já existente", {
+            theme: "dark",
+            autoClose: 1500,
+          });
         }
       };
 

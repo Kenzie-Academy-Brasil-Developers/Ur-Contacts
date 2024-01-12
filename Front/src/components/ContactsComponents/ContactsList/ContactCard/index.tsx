@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { Contact } from "../../../../pages/HomePage"
 import { Container } from "./styles"
 import { FaTrashAlt } from "react-icons/fa";
@@ -21,7 +21,13 @@ export const Card = ({ contact, setContacts, editContact, removeContact}: CardPr
                 <h3 className="nome">{contact.name}</h3>
                 <div className="contacts">
                     <p>{contact.email}</p>
-                    <p>{contact.telephone}</p>
+                    <p>
+                        ({contact.telephone.length === 11 ? contact.telephone.substring(0, 2) : contact.telephone.substring(0, 2)}) {' '}
+                        {contact.telephone.substring(contact.telephone.length === 11 ? 2 : 2, contact.telephone.length - 4)}
+                        -{contact.telephone.substring(contact.telephone.length - 4)}
+                    </p>
+
+
 
                 </div>
             </div>

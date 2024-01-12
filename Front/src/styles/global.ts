@@ -2,8 +2,6 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
     :root {
-        --Font-Primary: 'Inter', sans-serif;
-
         --color-primary: #FF577F;
         --color-primary-focus: #FF427F;
         --color-primary-negative: #59323F;

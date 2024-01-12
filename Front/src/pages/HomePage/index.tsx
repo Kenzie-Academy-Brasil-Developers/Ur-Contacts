@@ -17,6 +17,8 @@ import { FaPlusCircle } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
 
+import { StyledLogo } from "../../styles/typography";
+
 
 export interface Contact {
     id: string
@@ -24,7 +26,6 @@ export interface Contact {
     telephone: string
     email: string
 }
-
 
 
 export const HomePage = () => {
@@ -68,18 +69,13 @@ export const HomePage = () => {
         editContact={() => handleEditContact(contact)} removeContact={() => handleRemoveContact(contact)
         }/>)
 
-    
-
-
-
-
 
     return(
         <StyledContainer>
             <div className="formBox">
 
                 <div className="navBar">
-                    <h1>Ur Contact</h1>
+                    <StyledLogo> <span>Ur</span> Contact</StyledLogo>
                     <Link onClick={() => {userLogout()}} to="/">Sair</Link>
                 </div>
 
@@ -95,9 +91,9 @@ export const HomePage = () => {
                     </header>
                 </section>
                 
-                <main>
+                <div>
                     <section>
-                        <StyledTitle>Atualmente {contacts.length} contatos</StyledTitle>
+                        <StyledTitle>Atualmente <span>{contacts.length}</span> contatos</StyledTitle>
 
                         <FaPlusCircle type="button" onClick={toggleModalAdd}/>
 
@@ -106,7 +102,7 @@ export const HomePage = () => {
                     {renderContacts(contacts)}
                 </ul>
 
-                </main>
+                </div>
 
 
                 {isOpenAdd && <AddContactModal toggleModal={toggleModalAdd} setIsOpenAdd={setIsOpenAdd} />}
@@ -125,9 +121,6 @@ export const HomePage = () => {
                 {isOpenEditUser && <UserEditModal toggleModal={toggleModalEditUser} setIsOpenEditUser={setIsOpenEditUser} clientId={user.id || ''}/>}
 
                 {isOpenRemoveUser && <RemoveUserModal toggleModal={toggleModalRemoveUser} setIsOpenRemoveUser={setIsOpenRemoveUser} clientId={user.id || ''}/>}
-
-
-
 
             </div>
         </StyledContainer>

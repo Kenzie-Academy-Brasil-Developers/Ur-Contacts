@@ -2,9 +2,17 @@ import styled, {css} from "styled-components";
 
 
 export const HeadlineStyles = css`
-    font-family: var(--Font-Primary);
     font-weight: ${({fontWeight}) => fontWeight === "bold" ? 700 : 400};
     color: var(--grey-0);
+`
+
+export const StyledLogo = styled.h1`
+    ${HeadlineStyles};
+    font-size: 45px;
+
+    > span {
+        color: var(--color-primary);
+}
 `
 
 

@@ -3,10 +3,11 @@ import styled from "styled-components";
 export const StyledContainer = styled.main`
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 
     gap: 20px;
 
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
 
     background-color: var(--grey-4);
@@ -18,8 +19,9 @@ export const StyledContainer = styled.main`
         align-items: center;
 
         gap: 1.875rem;
-
+        
         max-width: 90rem;
+
         width: 100%;
 
         margin: 0 auto;
@@ -95,6 +97,10 @@ export const StyledContainer = styled.main`
     section {
         display: flex;
         justify-content: space-between;
+    }
+
+    div section span {
+        color: var(--color-primary);
     }
 
     ul {
