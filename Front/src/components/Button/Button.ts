@@ -1,15 +1,20 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { ButtonHTMLAttributes } from "react";
 
-export const StyledButton = styled.button`
-    height: 48px;
-    width: 100%;
-    
-    background-color: ${({tp}) => tp === "login" ?  "var(--color-primary-focus)"  : "var(--color-primary-negative)"};
-    border-radius: var(--border-radious);
+interface StyledButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  tp?: "login" | "register";
+}
 
-    color: var(--grey-0);
+export const StyledButton = styled.button<StyledButtonProps>`
+  height: 48px;
+  width: 100%;
+  background-color: ${({ tp }) =>
+    tp === "login" ? "var(--color-primary-focus)" : "var(--color-primary-negative)"};
+  border-radius: var(--border-radius);
+  color: var(--grey-0);
 
-    &:hover{
-        background-color: var(--color-primary-focus);
-    }
-`
+  &:hover {
+    background-color: var(--color-primary-focus);
+  }
+`;
+

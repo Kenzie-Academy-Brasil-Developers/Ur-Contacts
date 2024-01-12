@@ -166,7 +166,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         const userLoad = async () => {
             try {
                 setLoading(true);
-                const {data} = await api.get("/profile"
+                const {data} = await api.get("/clients"
                 , {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -186,7 +186,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         if (token) {
             userLoad()
         }
-
     }, [setUser])
 
 

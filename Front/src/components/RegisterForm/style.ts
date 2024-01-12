@@ -1,4 +1,6 @@
-.container {
+import styled from "styled-components";
+
+export const Form = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,5 +12,4 @@
     width: 23.0625rem;
 
     background-color: var(--grey-3);
-}
-
+`

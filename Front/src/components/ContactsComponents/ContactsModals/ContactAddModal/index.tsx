@@ -39,21 +39,21 @@ export const AddContactModal = ({ toggleModal, setIsOpenAdd }: ModalAddTaskProps
                 type="text" 
                 placeholder="Digite aqui o nome" 
                 {...register("name")} 
-                error={errors.name}/>
+                error={errors.name as { message: string } | undefined}/>
 
               <Input 
                 title="Contato" 
                 type="text" 
                 placeholder="Digite aqui o contato" 
                 {...register("telephone")} 
-                error={errors.telephone}/>
+                error={errors.telephone as { message: string } | undefined}/>
 
               <Input 
                 title="Email" 
                 type="email" 
                 placeholder="Digite aqui o email" 
                 {...register("email")} 
-                error={errors.email}/>      
+                error={errors.email as { message: string } | undefined}/>      
 
               <StyledButton type="submit">Registrar contato</StyledButton>
           </Form>

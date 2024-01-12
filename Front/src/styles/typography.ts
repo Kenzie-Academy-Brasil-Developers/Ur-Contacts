@@ -1,32 +1,30 @@
 import styled, {css} from "styled-components";
 
 
-export const HeadlineStyles = css`
-    font-weight: ${({fontWeight}) => fontWeight === "bold" ? 700 : 400};
-    color: var(--grey-0);
-`
-
-export const StyledLogo = styled.h1`
-    ${HeadlineStyles};
-    font-size: 45px;
-
-    > span {
-        color: var(--color-primary);
-}
-`
+export const HeadlineStyles = css<{ fontWeight?: string; fontItalic?: string }>`
+  font-weight: ${({ fontWeight }) => (fontWeight === "bold" ? 700 : 400)};
+  font-style: ${({ fontItalic }) => (fontItalic === "italic" ? "italic" : "normal")};
+  color: var(--grey-0);
+`;
 
 
-export const StyledTitle = styled.h1`
-    ${HeadlineStyles};
-    font-size: 18px;
-`
+export const StyledLogo = styled.h1<{ fontWeight?: string }>`
+  ${HeadlineStyles};
+  font-size: 45px;
 
+  > span {
+    color: var(--color-primary);
+  }
+`;
 
-export const StyledParagraph = styled.p`
-    ${HeadlineStyles};
-    font-size: 12px;
-    font-style: ${({style}) => style === "italic" ? italic : null};
+export const StyledTitle = styled.h1<{ fontWeight?: string }>`
+  ${HeadlineStyles};
+  font-size: 18px;
+`;
 
-`
+export const StyledParagraph = styled.p<{ fontWeight?: string; fontItalic?: string }>`
+  ${HeadlineStyles};
+  font-size: 12px;
+`;
 
 

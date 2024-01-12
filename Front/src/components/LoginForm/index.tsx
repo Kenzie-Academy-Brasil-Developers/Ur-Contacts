@@ -1,17 +1,23 @@
+import { SubmitHandler  } from "react-hook-form";
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { api } from "../../services/api";
-import { useNavigate } from "react-router-dom";
 import { Input } from "../RegisterForm/Input";
 import { loginFormSchema } from "./loginFormSchema";
-import styles from "./style.module.css";
+import { Form } from "./style";
 import { StyledButton } from "../Button/Button";
 
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserContext";
 
 import { StyledParagraph, StyledTitle } from "../../styles/typography";
+
+
+
+interface LoginFormValues {
+    email: string;
+    password: string;
+  }
 
 
 export const LoginForm = () => {
@@ -22,18 +28,18 @@ export const LoginForm = () => {
         register, 
         handleSubmit, 
         formState: {errors}  
-    } = useForm({
+    } = useForm<LoginFormValues>({
         resolver: zodResolver(loginFormSchema)
     });
 
 
-    const submit = (formData) => {
+    const submit: SubmitHandler<LoginFormValues> = (formData) => {
         userLogin(formData)
     }
 
 
     return(
-        <form className={styles.container} onSubmit={handleSubmit(submit)} noValidate>
+        <Form onSubmit={handleSubmit(submit)} noValidate>
             <StyledTitle fontWeight="bold">Login</StyledTitle>
 
             <Input 
@@ -41,14 +47,14 @@ export const LoginForm = () => {
                 type="email" 
                 placeholder="Digite aqui seu email" 
                 {...register("email")} 
-                error={errors.email}/>
+                error={errors.email as { message: string } | undefined}/>
 
             <Input 
                 title="Senha" 
                 type="password" 
                 placeholder="Digite aqui sua senha" 
                 {...register("password")} 
-                error={errors.password}/>
+                error={errors.password as { message: string } | undefined}/>
 
             <StyledButton tp="login" type="submit">Entrar</StyledButton>
 
@@ -56,6 +62,6 @@ export const LoginForm = () => {
 
             <Link to="/register">Cadastre-se</Link>
 
-        </form>
+        </Form>
     )
 }
