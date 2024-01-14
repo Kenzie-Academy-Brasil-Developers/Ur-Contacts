@@ -76,8 +76,9 @@ export const StyledContainer = styled.main`
 
     header > div {
         display: flex;
+        justify-content: space-between;
         flex-direction: column;
-        gap: 12px;
+        gap: 22px;
     }
 
     main{
@@ -109,5 +110,9 @@ export const StyledContainer = styled.main`
     gap: 20px;
     margin-top: 30px;
     color: white;
+}
+
+.principalContent{
+    width: 100%;
 }
 `

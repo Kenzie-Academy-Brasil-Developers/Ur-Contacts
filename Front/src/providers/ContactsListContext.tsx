@@ -3,6 +3,13 @@ import { api } from "../services/api";
 import { Contact } from "../pages/HomePage";
 import { toast } from "react-toastify"
 
+interface FormData {
+  name: string;
+  telephone: string;
+  email: string;
+}
+
+
 interface ContactsValues {
   contacts: Contact[];
   setContacts: React.Dispatch<React.SetStateAction<Contact[]>>;
@@ -47,7 +54,7 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
 
   }, []);
 
-  const addContact = async (formData) => {
+  const addContact = async (formData: FormData) => {
     try {
       const token = localStorage.getItem("@TOKEN");
 
@@ -92,7 +99,7 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
     }
   };
 
-  const editContact = async (formData, contactId: string) => {
+  const editContact = async (formData: FormData, contactId: string) => {
     try {
       const token = localStorage.getItem("@TOKEN");
 

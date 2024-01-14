@@ -25,6 +25,19 @@ interface UserContextValues {
 }
 
 
+interface RegisterFormData {
+  name: string;
+  email: string;
+}
+
+interface EditFormData {
+  name: string;
+  email: string;
+  password: string;
+  telephone: string;
+}
+
+
 export const UserContext = createContext<UserContextValues>({} as UserContextValues)
 
 export const UserProvider = ({ children }: UserProviderProps) => {
@@ -84,7 +97,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }
 
 
-    const userRegister = async (formData) => {
+    const userRegister = async (formData: RegisterFormData) => {
         try {
             await api.post('/clients', formData);
             console.log("Cadastro efetuado com sucesso")
@@ -125,7 +138,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       };
 
 
-    const editUser = async (formData, userId: string) => {
+    const editUser = async (formData: EditFormData, userId: string) => {
         try {
           const token = localStorage.getItem("@TOKEN");
           
@@ -140,11 +153,15 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             },
           });
     
-          setUser((user) => {if (user && user.id === userId) {
-            return { ...user, ...data };
-          } else {
-            return user;
-          }})
+          setUser((user: any) => {
+            if (user && user.id === userId) {
+              return { ...user, ...data };
+            } else {
+              return user!;
+            }
+          });
+          
+          
 
           toast.success("Usuário editado com sucesso", {
             theme: "dark",
@@ -191,7 +208,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
 
     return(
-        <UserContext.Provider value={{ user, setUser, userRegister, userLogin, userLogout, deleteUser, editUser, loading, setLoading, isOpenEditUser, setIsOpenEditUser, isOpenRemoveUser, setIsOpenRemoveUser }}>
+        <UserContext.Provider value={{ user, setUser, userRegister, userLogin, userLogout, deleteUser, editUser, loading, isOpenEditUser, setIsOpenEditUser, isOpenRemoveUser, setIsOpenRemoveUser }}>
             {children}
         </UserContext.Provider>
     )

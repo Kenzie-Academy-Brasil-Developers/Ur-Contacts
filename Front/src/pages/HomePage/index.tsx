@@ -65,7 +65,7 @@ export const HomePage = () => {
       };
 
 
-    const renderContacts = (contactsToRender: Contact[]) => contactsToRender.map(contact => <Card key={contact.id} contact={contact} setContacts={setContacts} 
+    const renderContacts = (contactsToRender: Contact[]) => contactsToRender.map(contact => <Card key={contact.id} contact={contact} 
         editContact={() => handleEditContact(contact)} removeContact={() => handleRemoveContact(contact)
         }/>)
 
@@ -84,18 +84,18 @@ export const HomePage = () => {
                     <header>
                             <StyledTitle>{user.name}</StyledTitle>
                             <div>
-                                <MdEdit onClick={toggleModalEditUser}/>
-                                <FaTrashAlt onClick={toggleModalRemoveUser}/>
+                                <MdEdit style={{ width: '20px', height: '20px', cursor: 'pointer'}} onClick={toggleModalEditUser}/>
+                                <FaTrashAlt style={{ width: '20px', height: '20px', cursor: 'pointer'}} onClick={toggleModalRemoveUser}/>
                             </div>
 
                     </header>
                 </section>
                 
-                <div>
+                <div className="principalContent">
                     <section>
                         <StyledTitle>Atualmente <span>{contacts.length}</span> contatos</StyledTitle>
 
-                        <FaPlusCircle type="button" onClick={toggleModalAdd}/>
+                        <FaPlusCircle style={{ width: '20px', height: '20px', cursor: 'pointer'}} type="button" onClick={toggleModalAdd}/>
 
                     </section>
                 <ul>

@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react"
 import { Contact } from "../../../../pages/HomePage"
 import { Container } from "./styles"
 import { FaTrashAlt } from "react-icons/fa";
@@ -8,12 +7,11 @@ import { MdEdit } from "react-icons/md";
 
 interface CardProps {
     contact: Contact
-    setContacts: Dispatch<SetStateAction<Contact[]>>
     editContact: (id: string) => void;
     removeContact: (id: string) => void;
 }
 
-export const Card = ({ contact, setContacts, editContact, removeContact}: CardProps) => {
+export const Card = ({ contact, editContact, removeContact}: CardProps) => {
 
     return (
         <Container>
@@ -27,15 +25,12 @@ export const Card = ({ contact, setContacts, editContact, removeContact}: CardPr
                         -{contact.telephone.substring(contact.telephone.length - 4)}
                     </p>
 
-
-
                 </div>
             </div>
 
             <div className="buttons">
-                <MdEdit onClick={() => editContact(contact.id)}/>
-                <FaTrashAlt onClick={() => removeContact(contact.id)} />
-
+                <MdEdit style={{ width: '20px', height: '20px', cursor: 'pointer'}} onClick={() => editContact(contact.id)}/>
+                <FaTrashAlt style={{ width: '20px', height: '20px', cursor: 'pointer'}} onClick={() => removeContact(contact.id)} />
             </div>
             
         </Container>

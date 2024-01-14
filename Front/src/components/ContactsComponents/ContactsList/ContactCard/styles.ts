@@ -6,6 +6,7 @@ export const Container = styled.li`
     justify-content: space-between;
     
 
+    /* flex-basis: calc(20% - 20px); */
     flex-basis: calc(20% - 20px);
     border-radius: 10px;
 

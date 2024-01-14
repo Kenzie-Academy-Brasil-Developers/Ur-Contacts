@@ -19,7 +19,7 @@ export const StyledLogo = styled.h1<{ fontWeight?: string }>`
 
 export const StyledTitle = styled.h1<{ fontWeight?: string }>`
   ${HeadlineStyles};
-  font-size: 18px;
+  font-size: 22px;
 `;
 
 export const StyledParagraph = styled.p<{ fontWeight?: string; fontItalic?: string }>`
