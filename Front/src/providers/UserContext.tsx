@@ -37,6 +37,14 @@ interface EditFormData {
   telephone: string;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  telephone: string;
+}
+
 
 export const UserContext = createContext<UserContextValues>({} as UserContextValues)
 
@@ -153,11 +161,11 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             },
           });
     
-          setUser((user: any) => {
+          setUser((user: User | null) => {
             if (user && user.id === userId) {
               return { ...user, ...data };
             } else {
-              return user!;
+              return user;
             }
           });
           
