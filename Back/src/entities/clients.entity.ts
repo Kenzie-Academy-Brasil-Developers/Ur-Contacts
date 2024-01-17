@@ -22,7 +22,7 @@ class Client {
     @CreateDateColumn({ type: "date"})
     registerAt: string
 
-    @OneToMany(() => Contact, contact => contact.client)
+    @OneToMany(() => Contact, contact => contact.client, { cascade: true, onDelete: 'CASCADE' })
     Contacts: Contact[]
 
     @BeforeInsert()
