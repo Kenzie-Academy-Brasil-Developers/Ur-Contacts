@@ -5,9 +5,11 @@ export const Container = styled.li`
     display: flex;
     justify-content: space-between;
     
-
     /* flex-basis: calc(20% - 20px); */
-    flex-basis: calc(20% - 20px);
+    width: 100%;
+    max-width: 250px;
+
+    height: 125px;
     border-radius: 10px;
 
     background-color: var(--color-primary);

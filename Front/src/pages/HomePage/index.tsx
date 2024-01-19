@@ -29,7 +29,6 @@ export interface Contact {
 
 
 export const HomePage = () => {
-
     const { user, userLogout, isOpenEditUser, setIsOpenEditUser, setIsOpenRemoveUser, isOpenRemoveUser } = useContext(UserContext)
     const { contacts, setContacts, setIsOpenAdd, setIsOpenEdit, isOpenAdd, isOpenEdit, isOpenRemove, setIsOpenRemove } = useContext(ContactsListContext)
 
@@ -45,7 +44,7 @@ export const HomePage = () => {
                 setContacts(response.data)
             }
         )()
-    }, [contacts])
+    }, [])
 
 
     const toggleModalAdd = () => setIsOpenAdd(!isOpenAdd)
@@ -76,7 +75,7 @@ export const HomePage = () => {
 
                 <div className="navBar">
                     <StyledLogo> <span>Ur</span> Contact</StyledLogo>
-                    <Link onClick={() => {userLogout()}} to="/">Sair</Link>
+                    <Link onClick={(e) => {userLogout(e)}} to="/">Sair</Link>
                 </div>
 
 

@@ -16,5 +16,11 @@ export const Container = styled.div`
     background-color: var(--grey-2);
 
     border-radius: var(--border-radious);
-    }
+
+    
+}
+.errorMessage {
+    color: var(--color-primary);
+}
+
 `

@@ -1,7 +1,8 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { api } from "../services/api";
 import { Contact } from "../pages/HomePage";
 import { toast } from "react-toastify"
+import { UserContext } from "./UserContext";
 
 interface FormData {
   name: string;
@@ -39,6 +40,7 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
 
+ 
 
 
   useEffect(() => {
@@ -88,12 +90,17 @@ export const ContactsListProvider = ({ children }:ContactProviderProps) => {
         autoClose: 1500,
       });
 
-      await api.delete(`/contacts/${contactId}`, {
+      await api.delete(`/contacts/${contactId}`
+      , 
+      {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
+      }
+      );
+
       setContacts((contactList) => contactList.filter((contact) => contact.id !== contactId));
+
     } catch (error) {
       console.log(error);
     }

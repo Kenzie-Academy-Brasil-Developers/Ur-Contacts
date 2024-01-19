@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useContext } from "react"
 import { Modal } from "../Modal"
 import { ContactsListContext } from "../../../../providers/ContactsListContext"
 import { StyledTitle } from "../../../../styles/typography"
-import { Form } from "./style";
+import { Div } from "./style";
 
 interface ModalEditTaskProps {
     toggleModal: () => void;
@@ -27,12 +27,12 @@ export const RemoveContactModal = ({ toggleModal, setIsOpenRemove, contactId  }:
 
   return (
       <Modal toggleModal={toggleModal}>
-        <Form>
+        <Div>
 
           <StyledTitle>Deseja mesmo excluir esse contato?</StyledTitle>
           <button onClick={() => onSubmit()}>Sim</button>
           <button onClick={() => setIsOpenRemove(false)}>Não</button>
-        </Form>
+        </Div>
 
 
       </Modal>

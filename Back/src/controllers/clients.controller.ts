@@ -12,8 +12,9 @@ class ClientsController {
         return res.status(201).json(newClient)
     }
 
-    async list(_: Request, res: Response) {
-        const clients = await this.clientService.list()
+    async list(req: Request, res: Response) {
+        const clientId = req.params.id as string
+        const clients = await this.clientService.list(clientId)
         return res.json(clients)
     }
 

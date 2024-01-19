@@ -13,7 +13,7 @@ interface UserContextValues {
   user: any;
   setUser: React.Dispatch<React.SetStateAction<any>>;
   userLogin: (data: LoginData) => void;
-  userLogout: () => void;
+  userLogout: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   loading: boolean;
   isOpenEditUser: boolean;
   setIsOpenEditUser: React.Dispatch<React.SetStateAction<boolean>>;
@@ -61,11 +61,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     useEffect(() => {
         const token = localStorage.getItem("@TOKEN")
 
-        if (!token) {
-            setLoading(false)
-            return
+        if (token) {
+          api.defaults.headers.common.Authorization = `Bearer ${token}`
         }
-        api.defaults.headers.common.Authorization = `Bearer ${token}`
+
         setLoading(false)
     }, [])
 
@@ -85,16 +84,19 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
             api.defaults.headers.common.Authorization = `Bearer ${token}`
             localStorage.setItem("@TOKEN", token)
+            localStorage.setItem("@USERID", response.data.user.id)
             
         } catch (error) {
           toast.error("Email ou senha inválidos", {
             theme: "dark",
+            autoClose: 1500,
           });
         }
 
     }
     
-    const userLogout = () => {
+    const userLogout = (e: any) => {
+      e.preventDefault()
       toast.success("Usuário deslogado com sucesso", {
         theme: "dark",
         autoClose: 1500,
@@ -108,7 +110,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const userRegister = async (formData: RegisterFormData) => {
         try {
             await api.post('/clients', formData);
-            console.log("Cadastro efetuado com sucesso")
 
             toast.success("Usuário cadastrado com sucesso", {
               theme: "dark",
@@ -119,6 +120,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         } catch(error) {
           toast.error("Usuário já cadastrado", {
             theme: "dark",
+            autoClose: 1500,
           });
         }
     }
@@ -127,19 +129,25 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     const deleteUser = async (userId: string) => {
         try {
           const token = localStorage.getItem("@TOKEN");
-    
-          await api.delete(`/clients/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
 
           toast.success("Usuário deletado com sucesso", {
             theme: "dark",
-            autoClose: 1500,
+            autoClose: 1400,
           });
 
-          setTimeout(() => {navigate("/")} , 1500);
+
+          setTimeout(async () => {
+            setUser(null) 
+            localStorage.removeItem("@TOKEN")
+            localStorage.removeItem("@USERID") 
+            localStorage.removeItem("@USERNAME") 
+            navigate("/") 
+            await api.delete(`/clients/${userId}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })} 
+            , 1500);
         } catch (error) {
           console.log(error);
         }
@@ -160,6 +168,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
               Authorization: `Bearer ${token}`,
             },
           });
+          console.log(newUser)
     
           setUser((user: User | null) => {
             if (user && user.id === userId) {
@@ -177,6 +186,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           });
 
         } catch (error) {
+          console.log(error)
           toast.error("Usuário já existente", {
             theme: "dark",
             autoClose: 1500,
@@ -185,33 +195,40 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       };
 
 
+
+
+
+
     useEffect(() => {
         const token = localStorage.getItem("@TOKEN")
+        const UserId = localStorage.getItem("@USERID")
 
         const userLoad = async () => {
-            try {
-                setLoading(true);
-                const {data} = await api.get("/clients"
-                , {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-                )
-                setUser(data)
-                navigate(currentPath)
-            } catch (error) {
-                console.log(error)
-                localStorage.removeItem("@TOKEN")
-            }
-            finally {
-                setLoading(false);
-            }
-        }
+          try {
+              setLoading(true);
+              const {data} = await api.get(`/clients/${UserId}`
+              , {
+                  headers: {
+                      Authorization: `Bearer ${token}`
+                  }
+              }
+              )
+              setUser(data)
+              navigate(currentPath)
+          } catch (error) {
+              console.log(error)
+              localStorage.removeItem("@TOKEN")
+          }
+          finally {
+              setLoading(false);
+          }
+      }
+
         if (token) {
-            userLoad()
-        }
-    }, [setUser])
+          userLoad()
+          
+      }
+    }, [])
 
 
 

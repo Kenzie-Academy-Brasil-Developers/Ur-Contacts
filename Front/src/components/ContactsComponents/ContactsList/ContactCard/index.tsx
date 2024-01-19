@@ -20,9 +20,7 @@ export const Card = ({ contact, editContact, removeContact}: CardProps) => {
                 <div className="contacts">
                     <p>{contact.email}</p>
                     <p>
-                        ({contact.telephone.substring(0, 2)}) {' '}
-                        {contact.telephone.substring(2, contact.telephone.length - 4)}
-                        -{contact.telephone.substring(contact.telephone.length - 4)}
+                        {contact.telephone}
                     </p>
 
                 </div>

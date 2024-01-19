@@ -1,13 +1,15 @@
-import { Dispatch, SetStateAction, useContext } from "react"
+import { Dispatch, SetStateAction, useContext, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ContactData, schema } from "./schema"
+import { TContactSchema, contactSchema } from "./schema"
 import { Modal } from "../Modal"
 import { Form } from "./style"
 import { ContactsListContext } from "../../../../providers/ContactsListContext"
 import { Input } from "../../../RegisterForm/Input"
 import { StyledButton } from "../../../Button/Button"
 import { StyledTitle } from "../../../../styles/typography"
+import 'jquery-mask-plugin';
+import { handlePhone } from "./schema"
 
 
 interface ModalAddTaskProps {
@@ -17,15 +19,14 @@ interface ModalAddTaskProps {
 
 
 export const AddContactModal = ({ toggleModal, setIsOpenAdd }: ModalAddTaskProps) => {
-  const { register, handleSubmit, formState: {errors}   } = useForm<ContactData>({
-      resolver: zodResolver(schema)
+  const { register, handleSubmit, formState: {errors}   } = useForm<TContactSchema>({
+      resolver: zodResolver(contactSchema), mode: "onChange"
   })
   const { addContact } = useContext(ContactsListContext)
 
-  const createContact = async (data: ContactData) => {
+  const createContact = async (data: TContactSchema) => {
     addContact(data)
     setIsOpenAdd(false)
-
   }
 
 
@@ -42,8 +43,14 @@ export const AddContactModal = ({ toggleModal, setIsOpenAdd }: ModalAddTaskProps
                 error={errors.name as { message: string } | undefined}/>
 
               <Input 
+                id="telephone"
                 title="Contato" 
                 type="text" 
+                onKeyUp={
+                  handlePhone
+                } 
+                minLength={10}
+                maxLength={12}
                 placeholder="Digite aqui o contato" 
                 {...register("telephone")} 
                 error={errors.telephone as { message: string } | undefined}/>
@@ -57,7 +64,6 @@ export const AddContactModal = ({ toggleModal, setIsOpenAdd }: ModalAddTaskProps
 
               <StyledButton type="submit">Registrar contato</StyledButton>
           </Form>
-
       </Modal>
   )
 }

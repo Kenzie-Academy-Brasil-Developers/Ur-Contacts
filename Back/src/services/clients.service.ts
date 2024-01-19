@@ -34,11 +34,15 @@ export class ClientService {
         return clientSchemaResponse.parse(client)
     }
 
-    async list() {
+    async list(clientId: string) {
         const clientRepository = AppDataSource.getRepository(Client)
-        const clients = await clientRepository.find()
+        const client = await clientRepository.findOneBy({ id: clientId })
+
+        if (!client) {
+            throw new AppError("User not found", 404)
+        }
     
-        return clientsSchemaResponse.parse(clients)
+        return clientSchemaResponse.parse(client)
     }
 
     async update(data: TClientUpdateRequest, clientId: string): Promise<TClientResponse> {
@@ -60,24 +64,6 @@ export class ClientService {
 
         return clientSchemaResponse.parse(newClientData)
     }
-
-    // async update(data: TClientUpdateRequest, clientId: string): Promise<TClientResponse> {
-    //     const clientRepository = AppDataSource.getRepository(Client)
-    //     const oldClient = await clientRepository.findOneBy({ id: clientId })
-    
-    //     if (!oldClient) {
-    //         throw new AppError("User not found", 404)
-    //     }
-    
-    //     // Atualizando apenas os campos desejados
-    //     clientRepository.merge(oldClient, data);
-    
-    //     // Salvando as alterações
-    //     const updatedClient = await clientRepository.save(oldClient);
-    
-    //     return clientSchemaResponse.parse(updatedClient);
-    // }
-    
 
 
     async remove(clientId: string): Promise<void> {

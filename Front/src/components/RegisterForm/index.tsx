@@ -1,7 +1,7 @@
 import { SubmitHandler, FieldValues  } from "react-hook-form";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerFormSchema } from "./registerFormSchema";
+import { registerFormSchema, handlePhone } from "./schema";
 import { Input } from "./Input";
 import { Form } from "./style";
 import { StyledButton } from "../Button/Button";
@@ -61,6 +61,9 @@ export const RegisterForm = () => {
             <Input 
                 title="Contato" 
                 type="text" 
+                onKeyUp={
+                    handlePhone
+                  }
                 placeholder="Opção de contato" 
                 {...register("telephone")} 
                 error={errors.telephone as { message: string } | undefined}/>

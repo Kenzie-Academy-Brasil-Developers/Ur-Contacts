@@ -13,6 +13,8 @@
     "@hookform/resolvers": "^3.3.2",
     "axios": "^1.6.2",
     "dotenv": "^16.3.1",
+    "jquery": "^3.7.1",
+    "jquery-mask-plugin": "^1.14.16",
     "pg": "^8.11.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,6 +28,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.29",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.10.0",

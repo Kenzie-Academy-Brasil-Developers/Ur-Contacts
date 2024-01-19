@@ -1,9 +1,31 @@
+import { FormEvent } from "react"
 import { z } from "zod"
 
-export const schema = z.object({
+export const contactSchema = z.object({
     name: z.string(),
     email: z.string(),
     telephone: z.string()
+    .max(15, "Necessário no máximo 11 digitos").min(10, "Necessário no mínimo 10 digitos")
 })
 
-export type ContactData = z.infer<typeof schema>
+export type TContactSchema = z.infer<typeof contactSchema>
+
+
+
+export const handlePhone = (e: FormEvent<HTMLInputElement>) => {
+    e.currentTarget.maxLength = 15
+    let value = e.currentTarget.value
+
+    value = value.replace(/\D/g, '').replace(/(?:(^\+\d{2})?)(?:([1-9]{2})|([0-9]{3})?)(\d{4,5})(\d{4})/, (fullMatch, country, ddd, dddWithZero, prefixTel, suffixTel) => {
+        if (country)
+            return `${country} (${
+                ddd || dddWithZero
+            }) ${prefixTel}-${suffixTel}`;
+        if (ddd || dddWithZero)
+            return `(${ddd || dddWithZero}) ${prefixTel}-${suffixTel}`;
+        if (prefixTel && suffixTel) return `${prefixTel}-${suffixTel}`;
+        return value;
+    })
+
+    e.currentTarget.value = value
+}

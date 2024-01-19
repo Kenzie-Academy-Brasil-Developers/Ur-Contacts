@@ -19,6 +19,6 @@ export class Contact{
     @CreateDateColumn()
     registerAt: string
 
-    @ManyToOne(() => Client)
+    @ManyToOne(() => Client, {onDelete: 'CASCADE'})
     client: Client
 }
